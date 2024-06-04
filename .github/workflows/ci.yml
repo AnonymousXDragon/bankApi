@@ -36,7 +36,9 @@ jobs:
 
     - name: Installing migrate cli
       run: |
-        curl -L https://github.com/golang-migrate/migrate/releases/download/v4.17.1/migrate-4.17.1.zip | tar xvz
+        curl -L https://github.com/golang-migrate/migrate/releases/download/v4.17.1/migrate.linux-amd64.tar.gz | tar xvz
+        mv migrate /usr/bin
+        which migrate
 
     - name: Make Migrations
       run: migrate -path db/migration -database "postgres://postgres:password@localhost:5432/bankdb?sslmode=disable" -verbose up
