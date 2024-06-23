@@ -63,8 +63,8 @@ func (as *AccountControllerTestSuite) TestCreateAccountHandler() {
 
 	assert.Equal(as.T(), http.StatusOK, rr.Code)
 
-	var response SuccessResponse
-	var responseData SuccessResponse
+	var response SuccessDataResponse
+	var responseData SuccessDataResponse
 
 	err = json.NewDecoder(rr.Body).Decode(&response)
 	assert.NoError(as.T(), err)

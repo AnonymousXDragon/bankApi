@@ -45,6 +45,47 @@ func (as *AccoutServiceTestSuite) TestCreateAccountService() {
 	as.mockRepo.AssertExpectations(as.T())
 }
 
+func (as *AccoutServiceTestSuite) TestListAccountService() {
+	as.mockRepo.On("ListAccounts").Return([]db.Account{}, nil)
+
+	accounts, err := as.aservice.ListAccountService()
+
+	assert.NoError(as.T(), err)
+	assert.NotNil(as.T(), accounts)
+	as.mockRepo.AssertExpectations(as.T())
+}
+
+func (as *AccoutServiceTestSuite) TestUpdateAccountService() {
+
+	testParams := db.UpdateAccountParams{
+		ID:      1,
+		Balance: 20000000,
+	}
+
+	var expectedOutput db.Account
+
+	as.mockRepo.On("UpdateAccount", testParams).Return(expectedOutput, nil)
+
+	account, err := as.aservice.UpdateAccountService(testParams)
+
+	assert.NoError(as.T(), err)
+	assert.NotNil(as.T(), account)
+
+	as.mockRepo.AssertExpectations(as.T())
+}
+
+func (as *AccoutServiceTestSuite) TestDeleteAccountService() {
+	id := 1
+
+	as.mockRepo.On("DeleteAccount", int32(id)).Return(nil)
+
+	err := as.aservice.DeleteAccountService(int32(id))
+
+	assert.NoError(as.T(), err)
+
+	as.mockRepo.AssertExpectations(as.T())
+}
+
 func TestRunAccountService(t *testing.T) {
 	as := new(AccoutServiceTestSuite)
 	suite.Run(t, as)

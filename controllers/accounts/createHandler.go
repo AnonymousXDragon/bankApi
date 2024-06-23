@@ -6,37 +6,6 @@ import (
 	"net/http"
 )
 
-type SampleResponse interface {
-	Serve(w http.ResponseWriter)
-	ServeR(w http.ResponseWriter)
-}
-
-type ErrReponse struct {
-	Status  int
-	Message string
-}
-
-type SuccessResponse struct {
-	Status int
-	Data   any
-}
-
-func (sr *SuccessResponse) ServeR(w http.ResponseWriter) {
-	w.WriteHeader(sr.Status)
-	w.Header().Set("Content-Type", "application/json")
-	data, err := json.Marshal(sr)
-	if err != nil {
-		panic(err)
-	}
-	w.Write(data)
-}
-
-func (err *ErrReponse) Serve(w http.ResponseWriter) {
-	w.WriteHeader(err.Status)
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(err)
-}
-
 func (ac *AccountController) CreateAccountHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
@@ -59,7 +28,7 @@ func (ac *AccountController) CreateAccountHandler(w http.ResponseWriter, r *http
 		errRes.Serve(w)
 	}
 
-	res := &SuccessResponse{
+	res := &SuccessDataResponse{
 		Status: http.StatusOK,
 		Data:   *account,
 	}

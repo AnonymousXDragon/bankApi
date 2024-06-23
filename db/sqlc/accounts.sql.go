@@ -110,7 +110,7 @@ WHERE id=$1 RETURNING id, owner, balance, currency, created_at
 `
 
 type UpdateAccountParams struct {
-	ID      int32 `json:"id"`
+	ID      int32 `json:"id" binding:"required"`
 	Balance int64 `json:"balance"`
 }
 

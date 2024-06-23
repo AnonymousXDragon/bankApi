@@ -19,8 +19,11 @@ func AccountRouter() *mux.Router {
 	accountController := accCont.NewAccountController(accountService)
 	accountR := mux.NewRouter().PathPrefix("/accounts").Subrouter()
 
-	accountR.HandleFunc("/", AccountHomeHandler).Methods(http.MethodGet).Name("AccountHome")
+	accountR.HandleFunc("/home", AccountHomeHandler).Methods(http.MethodGet).Name("AccountHome")
 	accountR.HandleFunc("/create", accountController.CreateAccountHandler).Methods(http.MethodPost).Name("CreateAccount")
+	accountR.HandleFunc("/update", accountController.UpdateAccountsHandler).Methods(http.MethodPut).Name("CreateAccount")
+	accountR.HandleFunc("/{id}", accountController.DeleteAccountsHandler).Methods(http.MethodPost).Name("CreateAccount")
+	accountR.HandleFunc("/", accountController.ListAccountsHandler).Methods(http.MethodGet).Name("ListAccounts")
 
 	return accountR
 }

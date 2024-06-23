@@ -100,3 +100,20 @@ func (a *AccountRepo) AccountExecTx(args any, fn func() error) error {
 
 	return nil
 }
+
+func (a *AccountRepo) ListAccounts() ([]db.Account, error) {
+	accounts, err := a.q.ListAccounts(context.Background())
+	if err != nil {
+		return []db.Account{}, err
+	}
+
+	return accounts, nil
+}
+
+func (a *AccountRepo) UpdateAccount(params db.UpdateAccountParams) (db.Account, error) {
+	return a.q.UpdateAccount(context.Background(), params)
+}
+
+func (a *AccountRepo) DeleteAccount(id int32) error {
+	return a.q.DeleteAccount(context.Background(), id)
+}
